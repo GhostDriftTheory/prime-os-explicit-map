@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Prime Calculation OS: 2025 Benchmarks & Breakthroughs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- MathJax Configuration -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            options: {
+                ignoreHtmlClass: 'tex2jax_ignore',
+                processHtmlClass: 'tex2jax_process'
+            },
+            chtml: {
+                fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2'
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Typography & Colors */
+        body { 
+            font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+            background-color: #FAFAFA; /* Slightly warmer white */
+            color: #1F2937; 
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        h1, h2, h3, .serif { font-family: 'Noto Serif', serif; }
+        
+        /* Responsive Chart Container */
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 800px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 260px; /* Mobile optimal */
+            max-height: 400px; 
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 380px; /* Desktop spacious */
+            }
+        }
+
+        /* UI Interactions */
+        .card-hover { transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease; }
+        .card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.1); }
+        
+        /* Tab Styling */
+        .active-tab { 
+            border-bottom: 2px solid #0F766E; 
+            color: #0F766E; 
+            font-weight: 600; 
+            background-color: rgba(15, 118, 110, 0.04); 
+        }
+        .inactive-tab { 
+            color: #64748B; 
+            border-bottom: 2px solid transparent; 
+        }
+        .inactive-tab:hover { 
+            color: #1E293B; 
+            background-color: #F1F5F9; 
+        }
+
+        /* Scrollbar Hiding for Mobile Swipe */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Reference Highlight Animation */
+        @keyframes highlight-pulse {
+            0% { background-color: #FEF3C7; transform: scale(1.02); border-color: #F59E0B; }
+            40% { background-color: #FEF3C7; transform: scale(1.02); border-color: #F59E0B; }
+            100% { background-color: white; transform: scale(1); border-color: #E5E7EB; }
+        }
+        .highlight-ref {
+            animation: highlight-pulse 2.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Smooth Anchor Scrolling */
+        html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
+        /* MathJax Loading Flicker Prevention */
+        mjx-container { outline: none !important; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="bg-white/90 backdrop-blur-md border-b border-gray-200/80 sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 bg-gradient-to-br from-teal-700 to-teal-800 rounded-lg flex items-center justify-center text-white font-bold text-lg serif shadow-sm flex-shrink-0">P</div>
+                <div class="flex flex-col">
+                    <span class="font-bold text-gray-900 tracking-tight text-sm leading-tight">Prime OS</span>
+                    <span class="text-[10px] text-gray-500 font-medium uppercase tracking-wider hidden sm:block">Research Report 2025</span>
+                </div>
+            </div>
+            <nav class="flex items-center gap-5 text-sm font-medium text-gray-600">
+                <a href="#analysis" class="hidden md:block hover:text-teal-700 transition-colors">Research Map</a>
+                <a href="#references" class="hidden md:block hover:text-teal-700 transition-colors">References</a>
+                <a href="https://ghostdrifttheory.github.io/prime-counter-demo/" target="_blank" class="group flex items-center gap-1.5 bg-teal-50 text-teal-800 px-3.5 py-1.5 rounded-full hover:bg-teal-100 hover:text-teal-900 transition-all duration-200 border border-teal-100">
+                    <span class="font-semibold">Live Demo</span>
+                    <span class="text-xs transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section class="relative pt-12 pb-16 md:py-24 overflow-hidden">
+            <!-- Background Decoration -->
+            <div class="absolute inset-0 z-0 opacity-40">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-teal-50/50 to-transparent rounded-[100%] blur-3xl"></div>
+            </div>
+
+            <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
+                <div class="inline-flex items-center gap-2 px-3 py-1 mb-6 text-xs font-semibold tracking-widest text-teal-800 uppercase bg-teal-50 rounded-full border border-teal-100/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse"></span>
+                    2025 Analytic Number Theory
+                </div>
+                
+                <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-[1.1] serif tracking-tight">
+                    Prime Calculation OS &<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-700 to-emerald-600">State-of-the-Art Benchmarks</span>
+                </h1>
+                
+                <p class="text-base sm:text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
+                    Moving beyond the inequalities of conventional explicit formulae.
+                    <br class="hidden md:block">
+                    Introducing the <span class="font-medium text-gray-900">Finite Closure</span> approach.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 sm:gap-4 px-4">
+                    <a href="https://ghostdrifttheory.github.io/prime-counter-demo/" target="_blank" class="flex-1 sm:flex-none px-8 py-3.5 bg-gray-900 text-white font-semibold rounded-xl hover:bg-gray-800 hover:-translate-y-0.5 transition-all shadow-xl shadow-gray-200 flex items-center justify-center gap-2 group">
+                        <span>Launch Live Demo</span>
+                        <svg class="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                    <button onclick="document.getElementById('analysis').scrollIntoView({behavior: 'smooth'})" class="flex-1 sm:flex-none px-6 py-3.5 bg-white text-gray-700 font-medium rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all shadow-sm">
+                        View Research Map
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Concept Visualization Section -->
+        <section id="concept" class="py-12 md:py-16 bg-white border-y border-gray-100 scroll-mt-20">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="grid md:grid-cols-12 gap-8 items-center">
+                    <!-- Text Control Panel -->
+                    <div class="md:col-span-4 space-y-6">
+                        <div>
+                            <h2 class="text-xl md:text-2xl font-bold text-gray-900 mb-3 serif">A. Fog vs. Window</h2>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                Conventional methods rely on bounding the "infinite tail" of the zeta zeros with inequalities ($|\psi(x)-x| < \epsilon$).
+                                <br><br>
+                                <strong>Prime OS</strong> applies the <span class="text-teal-700 font-medium">Yukawa Window</span> to mathematically suppress contributions outside the target interval, enabling a "finite closure" state.
+                            </p>
+                        </div>
+                        
+                        <!-- Controls -->
+                        <div class="bg-gray-50 p-5 rounded-2xl border border-gray-100">
+                            <div class="mb-5">
+                                <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Visualization Mode</label>
+                                <div class="flex bg-white rounded-lg p-1 border border-gray-200 shadow-sm">
+                                    <button id="btn-mode-classic" class="flex-1 py-2 text-xs font-medium rounded-md transition-all duration-200 bg-gray-100 text-gray-800 shadow-inner" onclick="setChartMode('classic')">
+                                        Legacy (Bounds)
+                                    </button>
+                                    <button id="btn-mode-os" class="flex-1 py-2 text-xs font-medium rounded-md transition-all duration-200 text-gray-500 hover:text-gray-800" onclick="setChartMode('os')">
+                                        Prime OS (Window)
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Approx. Precision (Terms)</label>
+                                <div class="flex items-center gap-3">
+                                    <input type="range" id="term-slider" min="10" max="200" value="50" class="flex-grow h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-teal-600" oninput="updateChartTerms(this.value)">
+                                    <span id="term-count-display" class="text-xs font-mono text-teal-700 w-16 text-right font-bold">50</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart -->
+                    <div class="md:col-span-8 bg-gradient-to-br from-gray-50 to-white rounded-2xl p-4 border border-gray-200 shadow-sm relative">
+                        <div class="chart-container">
+                            <canvas id="conceptChart"></canvas>
+                        </div>
+                        <div class="absolute bottom-3 left-0 right-0 text-center">
+                            <span id="chart-caption" class="text-xs font-semibold text-gray-500 bg-white/80 px-3 py-1 rounded-full backdrop-blur-sm border border-gray-100 shadow-sm">
+                                Legacy: Noise from infinite tail persists
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analysis Matrix Section -->
+        <section id="analysis" class="py-16 md:py-20 bg-gray-50/50 scroll-mt-20">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="mb-8 md:mb-10 text-center md:text-left">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 serif mb-3">
+                        B. Research Map 2025
+                    </h2>
+                    <p class="text-sm md:text-base text-gray-600 max-w-3xl">
+                        A comparative analysis of the current state-of-the-art benchmarks versus the structural paradigm shift offered by Prime OS.
+                    </p>
+                </div>
+
+                <!-- Responsive Tabs -->
+                <div class="relative mb-8 group">
+                    <!-- Mobile: Scrollable / Desktop: Wrapped -->
+                    <div class="flex overflow-x-auto md:overflow-visible md:flex-wrap pb-2 md:pb-0 gap-2 md:gap-3 border-b md:border-b-0 border-gray-200 no-scrollbar whitespace-nowrap md:whitespace-normal" id="tab-container">
+                        <button onclick="switchTab('explicit')" id="tab-explicit" class="px-5 py-2.5 rounded-t-lg md:rounded-lg text-sm transition-all duration-200 active-tab flex-shrink-0">1. Explicit Formulae</button>
+                        <button onclick="switchTab('intervals')" id="tab-intervals" class="px-5 py-2.5 rounded-t-lg md:rounded-lg text-sm transition-all duration-200 inactive-tab flex-shrink-0">2. Intervals/Means</button>
+                        <button onclick="switchTab('zeros')" id="tab-zeros" class="px-5 py-2.5 rounded-t-lg md:rounded-lg text-sm transition-all duration-200 inactive-tab flex-shrink-0">3. Zeros & RH</button>
+                        <button onclick="switchTab('computation')" id="tab-computation" class="px-5 py-2.5 rounded-t-lg md:rounded-lg text-sm transition-all duration-200 inactive-tab flex-shrink-0">4. $\pi(x)$ Impl.</button>
+                        <button onclick="switchTab('unconditional')" id="tab-unconditional" class="px-5 py-2.5 rounded-t-lg md:rounded-lg text-sm transition-all duration-200 inactive-tab flex-shrink-0">5. Unconditional</button>
+                    </div>
+                    <!-- Mobile fade indicator -->
+                    <div class="absolute right-0 top-0 bottom-2 w-12 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none md:hidden opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </div>
+
+                <!-- Matrix Content -->
+                <div id="matrix-content" class="grid md:grid-cols-2 gap-6 min-h-[420px]">
+                    <!-- Left: Conventional -->
+                    <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200 flex flex-col h-full card-hover">
+                        <div class="flex items-center gap-3 mb-5 pb-4 border-b border-gray-100">
+                            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-lg">📉</div>
+                            <h3 class="text-lg font-bold text-gray-900">Conventional Benchmarks</h3>
+                        </div>
+                        <div id="conventional-content" class="prose prose-sm prose-gray flex-grow">
+                            <!-- JS Content -->
+                        </div>
+                        <div class="mt-6">
+                            <h4 class="text-[10px] font-bold text-red-500 uppercase tracking-widest mb-2 flex items-center gap-1">
+                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                Structural Limit
+                            </h4>
+                            <p id="limit-content" class="text-xs md:text-sm text-gray-700 bg-red-50/50 p-4 rounded-xl border border-red-100 leading-relaxed">
+                                <!-- JS Content -->
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right: Prime OS -->
+                    <div class="bg-gradient-to-b from-teal-50/80 to-white rounded-2xl p-6 md:p-8 shadow-md border border-teal-100 flex flex-col h-full card-hover relative overflow-hidden group">
+                        <!-- Decor -->
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-teal-100 rounded-bl-full -mr-16 -mt-16 opacity-30 group-hover:scale-110 transition-transform duration-700"></div>
+                        
+                        <div class="flex items-center gap-3 mb-5 pb-4 border-b border-teal-100/50 relative z-10">
+                            <div class="w-10 h-10 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-lg shadow-sm">🚀</div>
+                            <h3 class="text-lg font-bold text-teal-900">Prime OS Breakthrough</h3>
+                        </div>
+                        <div id="os-content" class="prose prose-sm prose-teal flex-grow relative z-10">
+                            <!-- JS Content -->
+                        </div>
+                        <div class="mt-8 relative z-10 pt-4 border-t border-teal-100/50 flex flex-wrap items-center justify-between gap-4">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-teal-200 shadow-sm">
+                                <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                                <span class="text-[10px] font-bold text-teal-700 uppercase tracking-widest">Paradigm Shift</span>
+                            </div>
+                            <a href="https://ghostdrifttheory.github.io/prime-counter-demo/" target="_blank" class="text-sm font-bold text-teal-700 hover:text-teal-900 flex items-center gap-1.5 transition-colors group/link">
+                                Try Live Demo
+                                <span class="group-hover/link:translate-x-1 transition-transform">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- References Section -->
+        <section id="references" class="py-16 bg-white border-t border-gray-100 scroll-mt-20">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 serif mb-2">C. References</h2>
+                        <p class="text-sm text-gray-500">
+                            Primary sources supporting the report (2020–2025). <br class="md:hidden">Click ID to highlight.
+                        </p>
+                    </div>
+                    
+                    <!-- Filters: Scrollable on mobile, flex-wrap on desktop -->
+                    <div class="w-full md:w-auto overflow-x-auto md:overflow-visible pb-2 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0 no-scrollbar">
+                        <div class="flex md:flex-wrap gap-2">
+                            <button onclick="filterRefs('all')" class="px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-900 text-white shadow-sm flex-shrink-0 transition-transform active:scale-95">All</button>
+                            <button onclick="filterRefs('explicit')" class="px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 flex-shrink-0 transition-colors">Explicit</button>
+                            <button onclick="filterRefs('intervals')" class="px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 flex-shrink-0 transition-colors">Intervals</button>
+                            <button onclick="filterRefs('zeros')" class="px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 flex-shrink-0 transition-colors">Zeros/RH</button>
+                            <button onclick="filterRefs('computation')" class="px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 flex-shrink-0 transition-colors">Comput.</button>
+                            <button onclick="filterRefs('unconditional')" class="px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 flex-shrink-0 transition-colors">No RH</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="ref-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- JS Content -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-50 text-gray-500 py-12 border-t border-gray-200">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center text-gray-600 font-bold text-lg serif mx-auto mb-4">P</div>
+            <p class="serif text-lg text-gray-900 font-bold mb-2">Prime Calculation OS</p>
+            <p class="text-xs uppercase tracking-widest mb-6">From Explicit Formulae to Finite Closure</p>
+            
+            <div class="flex justify-center gap-6 mb-8 text-sm font-medium">
+                <a href="#analysis" class="hover:text-teal-700 transition-colors">Research Map</a>
+                <a href="#references" class="hover:text-teal-700 transition-colors">References</a>
+                <a href="https://ghostdrifttheory.github.io/prime-counter-demo/" target="_blank" class="text-teal-700 hover:text-teal-900 transition-colors">Live Demo ↗</a>
+            </div>
+            
+            <p class="text-[10px] text-gray-400">&copy; 2025 Research Report Visualization. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Data ---
+        const matrixData = {
+            explicit: {
+                conventional: `
+                    <p class="mb-3 text-sm leading-relaxed"><strong class="text-gray-900 block mb-1">Fiori et al. (2023), Johnston-Yang (2023)</strong>
+                    Optimized test functions have successfully compressed the error of the Chebyshev function $\\psi(x)-x$ to the order of $10^{-15}x$ [2][3]. The analytic method within the classical framework has reached its pinnacle.</p>`,
+                limit: "Infinite Sums Persist: Zero contributions are merely bounded by inequalities. Finite computation cannot reach 'exact equality' ($=$).",
+                os: `
+                    <p class="mb-3 text-sm leading-relaxed"><strong class="text-teal-900 block mb-1">Finite Closure</strong>
+                    The Yukawa Window function pushes infinite contributions into finite rational bounds, effectively cutting them off. This allows for managing information with finite terms and $\\Sigma_1$ inequalities, achieving an exactitude suitable for an OS.</p>`
+            },
+            intervals: {
+                conventional: `
+                    <p class="mb-3 text-sm leading-relaxed"><strong class="text-gray-900 block mb-1">Cully-Hugill et al. (2022-2025)</strong>
+                    Achieved guaranteed prime existence in $n^{155}$ intervals and explicit mean-value estimates for short-interval PNT [4][5]. BDH theorem generalized.</p>`,
+                limit: "Asymptotic & Probabilistic: Relies on 'sufficiently large x' or 'average behavior'. Unsuitable for local, deterministic counting.",
+                os: `
+                    <p class="mb-3 text-sm leading-relaxed"><strong class="text-teal-900 block mb-1">Local Determinism (Certificate)</strong>
+                    Deterministic counting within a finite window. A 'ledger' for primes independent of probability or asymptotic conditions.</p>`
+            },
+            zeros: {
+                conventional: `
+                    <p class="mb-3 text-sm leading-relaxed"><strong class="text-gray-900 block mb-1">Platt-Trudgian (2021), Bellotti (2024)</strong>
+                    Verified RH up to height $3\\cdot 10^{12}$ [10], explicit new zero-free regions [17], and refined zero density estimates [14].</p>`,
+                limit: "Proof of Absence: Calculating N(T) proves 'absence' of zeros rather than handling the substance of distribution. Computational cost explodes.",
+                os: `
+                    <p class="mb-3 text-sm leading-relaxed"><strong class="text-teal-900 block mb-1">Zeros as Spectrum</strong>
+                    Utilizing zeros not as errors to be eliminated, but as signals (spectrum) to directly synthesize the finite window function.</p>`
+            },
+            computation: {
+                conventional: `
+                    <p class="mb-3 text-sm leading-relaxed"><strong class="text-gray-900 block mb-1">Walisch (2022), Büthe et al. (2018)</strong>
+                    Achieved calculation of $\\pi(10^{29})$ through improved analytic methods (Meissel-Lehmer variants) and optimization [8][9].</p>`,
+                limit: "Combinatorial Explosion: Complexity essentially grows with x ($O(x^{2/3})$) due to combinatorial inclusion-exclusion.",
+                os: `
+                    <p class="mb-3 text-sm leading-relaxed"><strong class="text-teal-900 block mb-1">Challenge to O(1) Query</strong>
+                    Exploring constant-time lookup via finite closed explicit formulae, where complexity is independent of the magnitude of x (dependent only on window size).</p>`
+            },
+            unconditional: {
+                conventional: `
+                    <p class="mb-3 text-sm leading-relaxed"><strong class="text-gray-900 block mb-1">Dusart (2018), Axler (2024)</strong>
+                    Best estimates for $\\pi(x), p_n$ without assuming RH. Refined coefficients for asymptotic expansions [20][21].</p>`,
+                limit: "Loose Bounds: Without assuming RH, error terms are too large to be practical for precise calculation or engineering applications.",
+                os: `
+                    <p class="mb-3 text-sm leading-relaxed"><strong class="text-teal-900 block mb-1">Non-RH Structure</strong>
+                    The finite closure framework possesses a structure that holds mathematically regardless of the truth of the Riemann Hypothesis.</p>`
+            }
+        };
+
+        const references = [
+            { id: "[1]", text: "Broadbent et al., Sharper Bounds for θ(x), arXiv:2002.11068 (2020)", tag: "explicit" },
+            { id: "[2]", text: "Fiori et al., Sharper bounds for ψ(x), arXiv:2204.02588 (2023)", tag: "explicit" },
+            { id: "[3]", text: "Johnston & Yang, Estimates for error in PNT, arXiv:2204.01980 (2022/23)", tag: "explicit" },
+            { id: "[4]", text: "Languasco–Moree, Explicit bounds on primes (2025 preprint)", tag: "intervals" },
+            { id: "[5]", text: "Cully-Hugill, Primes between consecutive powers (2023)", tag: "intervals" },
+            { id: "[6]", text: "Cully-Hugill & Lee, Explicit interval estimates (2022)", tag: "intervals" },
+            { id: "[7]", text: "Cully-Hugill & Dudek, Mean-value estimate for PNT (2024)", tag: "intervals" },
+            { id: "[8]", text: "Prime Counting Function – Wolfram MathWorld (2023)", tag: "computation" },
+            { id: "[9]", text: "Büthe et al., Analytic method for π(x) (2018)", tag: "computation" },
+            { id: "[10]", text: "Platt & Trudgian, RH is true up to 3·10^12 (2021)", tag: "zeros" },
+            { id: "[11]", text: "Brent et al., Estimation of sums over zeros of ζ(s) (2021)", tag: "zeros" },
+            { id: "[12]", text: "Hasanalizade, Counting zeros of Riemann zeta (2022)", tag: "zeros" },
+            { id: "[13]", text: "Bennett et al., Counting zeros of Dirichlet L-functions (2021)", tag: "zeros" },
+            { id: "[14]", text: "Chourasiya & Simonič, Ingham’s zero density estimate (2023)", tag: "zeros" },
+            { id: "[15]", text: "Simonič, Zero density estimate near critical line (2020)", tag: "zeros" },
+            { id: "[16]", text: "Patel, Explicit upper bound for |ζ(1+it)| (2022)", tag: "zeros" },
+            { id: "[17]", text: "Bellotti, New zero-free region (2024)", tag: "zeros" },
+            { id: "[18]", text: "MathOverflow, Explicit zero-free regions (2023)", tag: "zeros" },
+            { id: "[19]", text: "Dona et al., Explicit L^2 bounds for Riemann ζ (2022)", tag: "zeros" },
+            { id: "[20]", text: "Dusart, Explicit estimates over primes (2018)", tag: "unconditional" },
+            { id: "[21]", text: "Axler, New estimates for π(x) (2018)", tag: "unconditional" }
+        ];
+
+        // --- Logic ---
+        let currentChartMode = 'classic';
+        let currentTermCount = 50;
+        let chartInstance = null;
+
+        function init() {
+            switchTab('explicit');
+            renderReferences(references);
+            initChart();
+        }
+
+        function switchTab(key) {
+            // UI Update
+            document.querySelectorAll('#tab-container button').forEach(btn => {
+                const isActive = btn.id === `tab-${key}`;
+                btn.className = isActive 
+                    ? "px-5 py-2.5 rounded-t-lg md:rounded-lg text-sm transition-all duration-200 active-tab flex-shrink-0"
+                    : "px-5 py-2.5 rounded-t-lg md:rounded-lg text-sm transition-all duration-200 inactive-tab flex-shrink-0";
+                
+                if(isActive) btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            });
+
+            // Content Update
+            const panels = [
+                document.getElementById('conventional-content'),
+                document.getElementById('limit-content'),
+                document.getElementById('os-content')
+            ];
+            const data = matrixData[key];
+            const contents = [data.conventional, data.limit, data.os];
+
+            panels.forEach((el, index) => {
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    // Inject and process links
+                    el.innerHTML = contents[index].replace(/\[(\d+)\]/g, 
+                        `<button onclick="scrollToRef('${'$1'}')" class="text-teal-600 font-bold hover:underline cursor-pointer px-0.5" title="View Ref [$1]">[$1]</button>`
+                    );
+                    el.style.opacity = '1';
+                    if (window.MathJax) MathJax.typesetPromise([el]);
+                }, 200);
+            });
+        }
+
+        function scrollToRef(id) {
+            filterRefs('all');
+            setTimeout(() => {
+                const el = document.getElementById(`ref-${id}`);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    el.classList.remove('highlight-ref');
+                    void el.offsetWidth;
+                    el.classList.add('highlight-ref');
+                }
+            }, 100);
+        }
+
+        // --- Chart ---
+        function initChart() {
+            const ctx = document.getElementById('conceptChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: generateChartData(currentChartMode, currentTermCount),
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: { duration: 1000, easing: 'easeOutQuart' },
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { display: true, position: 'top', align: 'end', labels: { boxWidth: 12, usePointStyle: true, font: { family: "'Inter', sans-serif", size: 11 } } },
+                        tooltip: { 
+                            backgroundColor: 'rgba(30, 41, 59, 0.9)', 
+                            titleFont: { family: "'Inter', sans-serif" }, 
+                            bodyFont: { family: "'Inter', sans-serif" },
+                            padding: 10, cornerRadius: 8
+                        }
+                    },
+                    scales: {
+                        x: { display: false },
+                        y: { display: true, min: -2.2, max: 2.2, grid: { color: '#F1F5F9' }, ticks: { display: false } }
+                    },
+                    elements: {
+                        point: { radius: 0 }
+                    }
+                }
+            });
+        }
+
+        function setChartMode(mode) {
+            currentChartMode = mode;
+            const btnClassic = document.getElementById('btn-mode-classic');
+            const btnOs = document.getElementById('btn-mode-os');
+            const caption = document.getElementById('chart-caption');
+
+            const activeClass = "bg-white text-gray-900 shadow-sm border border-gray-200 font-semibold";
+            const inactiveClass = "bg-transparent text-gray-500 hover:text-gray-900";
+
+            if (mode === 'classic') {
+                btnClassic.className = `flex-1 py-2 text-xs font-medium rounded-md transition-all duration-200 ${activeClass}`;
+                btnOs.className = `flex-1 py-2 text-xs font-medium rounded-md transition-all duration-200 ${inactiveClass}`;
+                caption.textContent = "Legacy: Noise from infinite tail persists";
+                caption.className = "text-xs font-semibold text-gray-500 bg-white/80 px-3 py-1 rounded-full backdrop-blur-sm border border-gray-100 shadow-sm";
+            } else {
+                btnOs.className = `flex-1 py-2 text-xs font-medium rounded-md transition-all duration-200 ${activeClass} text-teal-700`;
+                btnClassic.className = `flex-1 py-2 text-xs font-medium rounded-md transition-all duration-200 ${inactiveClass}`;
+                caption.textContent = "Prime OS: Tail suppressed (Finite Closure)";
+                caption.className = "text-xs font-semibold text-teal-700 bg-teal-50/80 px-3 py-1 rounded-full backdrop-blur-sm border border-teal-100 shadow-sm";
+            }
+            updateChart();
+        }
+
+        function updateChartTerms(val) {
+            currentTermCount = parseInt(val);
+            document.getElementById('term-count-display').innerText = val + " terms";
+            updateChart();
+        }
+
+        function updateChart() {
+            const newData = generateChartData(currentChartMode, currentTermCount);
+            chartInstance.data = newData;
+            chartInstance.update();
+        }
+
+        function generateChartData(mode, terms) {
+            const labels = [];
+            const dataPoints = [];
+            const steps = 120;
+            const range = 10;
+            
+            for (let i = 0; i <= steps; i++) {
+                const t = (i / steps) * range - (range / 2);
+                labels.push(t.toFixed(1));
+                let val = 0;
+                for (let k = 1; k <= terms; k++) {
+                    const freq = k * 0.55; 
+                    const phase = k * 0.3;
+                    const amp = 1 / Math.pow(k, 0.9); 
+                    val += Math.sin(freq * t + phase) * amp;
+                }
+                val = val * 1.8;
+                if (mode === 'os') {
+                    const window = Math.exp(-(t * t) / 2.5); 
+                    val = val * window;
+                }
+                dataPoints.push(val);
+            }
+
+            // Enhanced Styling for Datasets
+            const mainColor = mode === 'classic' ? '#64748B' : '#0D9488'; // Slate-500 vs Teal-600
+            const bgColor = mode === 'classic' ? 'rgba(100, 116, 139, 0.1)' : 'rgba(13, 148, 136, 0.1)';
+            
+            const datasets = [{
+                label: mode === 'classic' ? 'Explicit Formula' : 'Windowed Function',
+                data: dataPoints,
+                borderColor: mainColor,
+                backgroundColor: bgColor,
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true
+            }];
+
+            if (mode === 'classic') {
+                const error = 1.5 * (10/terms);
+                const boundsStyle = {
+                    borderColor: 'rgba(239, 68, 68, 0.4)',
+                    borderWidth: 1,
+                    borderDash: [4, 4],
+                    pointRadius: 0,
+                    fill: false
+                };
+                datasets.push({ label: 'Error Bounds', data: dataPoints.map(v => v + error), ...boundsStyle });
+                datasets.push({ label: 'Lower Bound', data: dataPoints.map(v => v - error), ...boundsStyle, hidden: true });
+            }
+
+            return { labels, datasets };
+        }
+
+        // --- References ---
+        function renderReferences(list) {
+            const container = document.getElementById('ref-grid');
+            container.innerHTML = '';
+            
+            list.forEach(ref => {
+                const div = document.createElement('div');
+                const cleanId = ref.id.replace(/[\[\]]/g, '');
+                div.id = `ref-${cleanId}`;
+                div.className = "bg-white p-4 rounded-xl border border-gray-100 shadow-sm text-xs text-gray-600 hover:border-teal-200 transition-all duration-300 group";
+                
+                div.innerHTML = ref.text.replace(/^(\[\d+\])/, 
+                    '<span class="font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded mr-2 text-xs group-hover:bg-teal-100 transition-colors">$1</span>'
+                );
+                container.appendChild(div);
+            });
+            if (window.MathJax) MathJax.typesetPromise([container]);
+        }
+
+        function filterRefs(tag) {
+            // Update UI
+            document.querySelectorAll('#references button').forEach(btn => {
+                const isActive = (btn.textContent.trim().toLowerCase() === 'all' && tag === 'all') || 
+                                 (btn.getAttribute('onclick').toLowerCase().includes(tag) && tag !== 'all');
+                
+                btn.className = isActive
+                    ? "px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-900 text-white shadow-sm flex-shrink-0 transition-transform active:scale-95"
+                    : "px-3 py-1.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 flex-shrink-0 transition-colors";
+            });
+
+            // Filter
+            if (tag === 'all') renderReferences(references);
+            else renderReferences(references.filter(r => r.tag === tag));
+        }
+
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
